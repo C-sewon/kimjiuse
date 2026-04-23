@@ -86,31 +86,31 @@ CMakeFiles/classifier.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/classifier.dir/src/main.cpp.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\kimjiuse\kimjiuse\src\main.cpp -o CMakeFiles\classifier.dir\src\main.cpp.s
 
-CMakeFiles/classifier.dir/src/db_handler.c.obj: CMakeFiles/classifier.dir/flags.make
-CMakeFiles/classifier.dir/src/db_handler.c.obj: CMakeFiles/classifier.dir/includes_C.rsp
-CMakeFiles/classifier.dir/src/db_handler.c.obj: C:/kimjiuse/kimjiuse/src/db_handler.c
-CMakeFiles/classifier.dir/src/db_handler.c.obj: CMakeFiles/classifier.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/classifier.dir/src/db_handler.c.obj"
-	C:\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/classifier.dir/src/db_handler.c.obj -MF CMakeFiles\classifier.dir\src\db_handler.c.obj.d -o CMakeFiles\classifier.dir\src\db_handler.c.obj -c C:\kimjiuse\kimjiuse\src\db_handler.c
+CMakeFiles/classifier.dir/src/db_handler.cpp.obj: CMakeFiles/classifier.dir/flags.make
+CMakeFiles/classifier.dir/src/db_handler.cpp.obj: CMakeFiles/classifier.dir/includes_CXX.rsp
+CMakeFiles/classifier.dir/src/db_handler.cpp.obj: C:/kimjiuse/kimjiuse/src/db_handler.cpp
+CMakeFiles/classifier.dir/src/db_handler.cpp.obj: CMakeFiles/classifier.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/classifier.dir/src/db_handler.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/classifier.dir/src/db_handler.cpp.obj -MF CMakeFiles\classifier.dir\src\db_handler.cpp.obj.d -o CMakeFiles\classifier.dir\src\db_handler.cpp.obj -c C:\kimjiuse\kimjiuse\src\db_handler.cpp
 
-CMakeFiles/classifier.dir/src/db_handler.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/classifier.dir/src/db_handler.c.i"
-	C:\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\kimjiuse\kimjiuse\src\db_handler.c > CMakeFiles\classifier.dir\src\db_handler.c.i
+CMakeFiles/classifier.dir/src/db_handler.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/classifier.dir/src/db_handler.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\kimjiuse\kimjiuse\src\db_handler.cpp > CMakeFiles\classifier.dir\src\db_handler.cpp.i
 
-CMakeFiles/classifier.dir/src/db_handler.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/classifier.dir/src/db_handler.c.s"
-	C:\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\kimjiuse\kimjiuse\src\db_handler.c -o CMakeFiles\classifier.dir\src\db_handler.c.s
+CMakeFiles/classifier.dir/src/db_handler.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/classifier.dir/src/db_handler.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\kimjiuse\kimjiuse\src\db_handler.cpp -o CMakeFiles\classifier.dir\src\db_handler.cpp.s
 
 # Object files for target classifier
 classifier_OBJECTS = \
 "CMakeFiles/classifier.dir/src/main.cpp.obj" \
-"CMakeFiles/classifier.dir/src/db_handler.c.obj"
+"CMakeFiles/classifier.dir/src/db_handler.cpp.obj"
 
 # External object files for target classifier
 classifier_EXTERNAL_OBJECTS =
 
 classifier.exe: CMakeFiles/classifier.dir/src/main.cpp.obj
-classifier.exe: CMakeFiles/classifier.dir/src/db_handler.c.obj
+classifier.exe: CMakeFiles/classifier.dir/src/db_handler.cpp.obj
 classifier.exe: CMakeFiles/classifier.dir/build.make
 classifier.exe: CMakeFiles/classifier.dir/linkLibs.rsp
 classifier.exe: CMakeFiles/classifier.dir/objects1.rsp

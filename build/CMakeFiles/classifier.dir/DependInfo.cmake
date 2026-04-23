@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/kimjiuse/kimjiuse/src/db_handler.c" "CMakeFiles/classifier.dir/src/db_handler.c.obj" "gcc" "CMakeFiles/classifier.dir/src/db_handler.c.obj.d"
+  "C:/kimjiuse/kimjiuse/src/db_handler.cpp" "CMakeFiles/classifier.dir/src/db_handler.cpp.obj" "gcc" "CMakeFiles/classifier.dir/src/db_handler.cpp.obj.d"
   "C:/kimjiuse/kimjiuse/src/main.cpp" "CMakeFiles/classifier.dir/src/main.cpp.obj" "gcc" "CMakeFiles/classifier.dir/src/main.cpp.obj.d"
   )
 

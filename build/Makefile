@@ -128,29 +128,29 @@ classifier/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/build
 .PHONY : classifier/fast
 
-src/db_handler.obj: src/db_handler.c.obj
+src/db_handler.obj: src/db_handler.cpp.obj
 .PHONY : src/db_handler.obj
 
 # target to build an object file
-src/db_handler.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.c.obj
-.PHONY : src/db_handler.c.obj
+src/db_handler.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.obj
+.PHONY : src/db_handler.cpp.obj
 
-src/db_handler.i: src/db_handler.c.i
+src/db_handler.i: src/db_handler.cpp.i
 .PHONY : src/db_handler.i
 
 # target to preprocess a source file
-src/db_handler.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.c.i
-.PHONY : src/db_handler.c.i
+src/db_handler.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.i
+.PHONY : src/db_handler.cpp.i
 
-src/db_handler.s: src/db_handler.c.s
+src/db_handler.s: src/db_handler.cpp.s
 .PHONY : src/db_handler.s
 
 # target to generate assembly for a file
-src/db_handler.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.c.s
-.PHONY : src/db_handler.c.s
+src/db_handler.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.s
+.PHONY : src/db_handler.cpp.s
 
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj

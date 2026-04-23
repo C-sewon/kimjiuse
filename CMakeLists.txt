@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_executable(classifier
     src/main.cpp
-    src/db_handler.c
+    src/db_handler.cpp
 )
 
 target_include_directories(classifier PRIVATE include)
