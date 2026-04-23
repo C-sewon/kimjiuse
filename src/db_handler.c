@@ -1,11 +1,6 @@
-#include "../include/db_handler.h"
+#include "db_handler.h"
 #include <stdio.h>
-#include <stdlib.h>
 
-// 나중에 SQLite 설치 후 추가할 부분
-// #include <sqlite3.h>
-
-// 일단 테스트용으로 printf만 써서 확인
 int db_init(const char* db_path) {
     printf("DB 초기화: %s\n", db_path);
     return 0;
@@ -22,6 +17,13 @@ int db_insert(const char* post_id,
 int db_update_category(const char* post_id,
                        const char* new_category) {
     printf("수정: %s → %s\n", post_id, new_category);
+    return 0;
+}
+
+char** db_query_by_category(const char* category,
+                             int* result_count) {
+    printf("조회: %s\n", category);
+    *result_count = 0;
     return 0;
 }
 
