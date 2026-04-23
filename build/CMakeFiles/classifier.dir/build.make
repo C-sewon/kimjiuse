@@ -101,21 +101,72 @@ CMakeFiles/classifier.dir/src/db_handler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/classifier.dir/src/db_handler.cpp.s"
 	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\kimjiuse\kimjiuse\src\db_handler.cpp -o CMakeFiles\classifier.dir\src\db_handler.cpp.s
 
+CMakeFiles/classifier.dir/src/json_parser.c.obj: CMakeFiles/classifier.dir/flags.make
+CMakeFiles/classifier.dir/src/json_parser.c.obj: CMakeFiles/classifier.dir/includes_C.rsp
+CMakeFiles/classifier.dir/src/json_parser.c.obj: C:/kimjiuse/kimjiuse/src/json_parser.c
+CMakeFiles/classifier.dir/src/json_parser.c.obj: CMakeFiles/classifier.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/classifier.dir/src/json_parser.c.obj"
+	C:\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/classifier.dir/src/json_parser.c.obj -MF CMakeFiles\classifier.dir\src\json_parser.c.obj.d -o CMakeFiles\classifier.dir\src\json_parser.c.obj -c C:\kimjiuse\kimjiuse\src\json_parser.c
+
+CMakeFiles/classifier.dir/src/json_parser.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/classifier.dir/src/json_parser.c.i"
+	C:\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\kimjiuse\kimjiuse\src\json_parser.c > CMakeFiles\classifier.dir\src\json_parser.c.i
+
+CMakeFiles/classifier.dir/src/json_parser.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/classifier.dir/src/json_parser.c.s"
+	C:\mingw64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\kimjiuse\kimjiuse\src\json_parser.c -o CMakeFiles\classifier.dir\src\json_parser.c.s
+
+CMakeFiles/classifier.dir/src/text_classifier.cpp.obj: CMakeFiles/classifier.dir/flags.make
+CMakeFiles/classifier.dir/src/text_classifier.cpp.obj: CMakeFiles/classifier.dir/includes_CXX.rsp
+CMakeFiles/classifier.dir/src/text_classifier.cpp.obj: C:/kimjiuse/kimjiuse/src/text_classifier.cpp
+CMakeFiles/classifier.dir/src/text_classifier.cpp.obj: CMakeFiles/classifier.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/classifier.dir/src/text_classifier.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/classifier.dir/src/text_classifier.cpp.obj -MF CMakeFiles\classifier.dir\src\text_classifier.cpp.obj.d -o CMakeFiles\classifier.dir\src\text_classifier.cpp.obj -c C:\kimjiuse\kimjiuse\src\text_classifier.cpp
+
+CMakeFiles/classifier.dir/src/text_classifier.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/classifier.dir/src/text_classifier.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\kimjiuse\kimjiuse\src\text_classifier.cpp > CMakeFiles\classifier.dir\src\text_classifier.cpp.i
+
+CMakeFiles/classifier.dir/src/text_classifier.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/classifier.dir/src/text_classifier.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\kimjiuse\kimjiuse\src\text_classifier.cpp -o CMakeFiles\classifier.dir\src\text_classifier.cpp.s
+
+CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj: CMakeFiles/classifier.dir/flags.make
+CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj: CMakeFiles/classifier.dir/includes_CXX.rsp
+CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj: C:/kimjiuse/kimjiuse/src/image_analyzer.cpp
+CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj: CMakeFiles/classifier.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj -MF CMakeFiles\classifier.dir\src\image_analyzer.cpp.obj.d -o CMakeFiles\classifier.dir\src\image_analyzer.cpp.obj -c C:\kimjiuse\kimjiuse\src\image_analyzer.cpp
+
+CMakeFiles/classifier.dir/src/image_analyzer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/classifier.dir/src/image_analyzer.cpp.i"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\kimjiuse\kimjiuse\src\image_analyzer.cpp > CMakeFiles\classifier.dir\src\image_analyzer.cpp.i
+
+CMakeFiles/classifier.dir/src/image_analyzer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/classifier.dir/src/image_analyzer.cpp.s"
+	C:\mingw64\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\kimjiuse\kimjiuse\src\image_analyzer.cpp -o CMakeFiles\classifier.dir\src\image_analyzer.cpp.s
+
 # Object files for target classifier
 classifier_OBJECTS = \
 "CMakeFiles/classifier.dir/src/main.cpp.obj" \
-"CMakeFiles/classifier.dir/src/db_handler.cpp.obj"
+"CMakeFiles/classifier.dir/src/db_handler.cpp.obj" \
+"CMakeFiles/classifier.dir/src/json_parser.c.obj" \
+"CMakeFiles/classifier.dir/src/text_classifier.cpp.obj" \
+"CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj"
 
 # External object files for target classifier
 classifier_EXTERNAL_OBJECTS =
 
 classifier.exe: CMakeFiles/classifier.dir/src/main.cpp.obj
 classifier.exe: CMakeFiles/classifier.dir/src/db_handler.cpp.obj
+classifier.exe: CMakeFiles/classifier.dir/src/json_parser.c.obj
+classifier.exe: CMakeFiles/classifier.dir/src/text_classifier.cpp.obj
+classifier.exe: CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj
 classifier.exe: CMakeFiles/classifier.dir/build.make
 classifier.exe: CMakeFiles/classifier.dir/linkLibs.rsp
 classifier.exe: CMakeFiles/classifier.dir/objects1.rsp
 classifier.exe: CMakeFiles/classifier.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable classifier.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable classifier.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\classifier.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

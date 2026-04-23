@@ -84,12 +84,12 @@ clean: CMakeFiles/classifier.dir/clean
 CMakeFiles/classifier.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=1,2,3 "Built target classifier"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Built target classifier"
 .PHONY : CMakeFiles/classifier.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/classifier.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\kimjiuse\kimjiuse\build\CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start C:\kimjiuse\kimjiuse\build\CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 CMakeFiles/classifier.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start C:\kimjiuse\kimjiuse\build\CMakeFiles 0
 .PHONY : CMakeFiles/classifier.dir/rule
@@ -101,7 +101,7 @@ classifier: CMakeFiles/classifier.dir/rule
 # codegen rule for target.
 CMakeFiles/classifier.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=1,2,3 "Finished codegen for target classifier"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=C:\kimjiuse\kimjiuse\build\CMakeFiles --progress-num=1,2,3,4,5,6 "Finished codegen for target classifier"
 .PHONY : CMakeFiles/classifier.dir/codegen
 
 # clean rule for target.
