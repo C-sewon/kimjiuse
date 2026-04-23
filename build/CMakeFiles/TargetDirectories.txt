@@ -1,0 +1,3 @@
+C:/kimjiuse/kimjiuse/build/CMakeFiles/classifier.dir
+C:/kimjiuse/kimjiuse/build/CMakeFiles/edit_cache.dir
+C:/kimjiuse/kimjiuse/build/CMakeFiles/rebuild_cache.dir

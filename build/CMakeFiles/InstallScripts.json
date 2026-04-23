@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/kimjiuse/kimjiuse/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
