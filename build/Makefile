@@ -152,6 +152,54 @@ src/db_handler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.s
 .PHONY : src/db_handler.cpp.s
 
+src/image_analyzer.obj: src/image_analyzer.cpp.obj
+.PHONY : src/image_analyzer.obj
+
+# target to build an object file
+src/image_analyzer.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj
+.PHONY : src/image_analyzer.cpp.obj
+
+src/image_analyzer.i: src/image_analyzer.cpp.i
+.PHONY : src/image_analyzer.i
+
+# target to preprocess a source file
+src/image_analyzer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/image_analyzer.cpp.i
+.PHONY : src/image_analyzer.cpp.i
+
+src/image_analyzer.s: src/image_analyzer.cpp.s
+.PHONY : src/image_analyzer.s
+
+# target to generate assembly for a file
+src/image_analyzer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/image_analyzer.cpp.s
+.PHONY : src/image_analyzer.cpp.s
+
+src/json_parser.obj: src/json_parser.c.obj
+.PHONY : src/json_parser.obj
+
+# target to build an object file
+src/json_parser.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/json_parser.c.obj
+.PHONY : src/json_parser.c.obj
+
+src/json_parser.i: src/json_parser.c.i
+.PHONY : src/json_parser.i
+
+# target to preprocess a source file
+src/json_parser.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/json_parser.c.i
+.PHONY : src/json_parser.c.i
+
+src/json_parser.s: src/json_parser.c.s
+.PHONY : src/json_parser.s
+
+# target to generate assembly for a file
+src/json_parser.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/json_parser.c.s
+.PHONY : src/json_parser.c.s
+
 src/main.obj: src/main.cpp.obj
 .PHONY : src/main.obj
 
@@ -176,6 +224,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/text_classifier.obj: src/text_classifier.cpp.obj
+.PHONY : src/text_classifier.obj
+
+# target to build an object file
+src/text_classifier.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/text_classifier.cpp.obj
+.PHONY : src/text_classifier.cpp.obj
+
+src/text_classifier.i: src/text_classifier.cpp.i
+.PHONY : src/text_classifier.i
+
+# target to preprocess a source file
+src/text_classifier.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/text_classifier.cpp.i
+.PHONY : src/text_classifier.cpp.i
+
+src/text_classifier.s: src/text_classifier.cpp.s
+.PHONY : src/text_classifier.s
+
+# target to generate assembly for a file
+src/text_classifier.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/text_classifier.cpp.s
+.PHONY : src/text_classifier.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -188,9 +260,18 @@ help:
 	@echo ... src/db_handler.obj
 	@echo ... src/db_handler.i
 	@echo ... src/db_handler.s
+	@echo ... src/image_analyzer.obj
+	@echo ... src/image_analyzer.i
+	@echo ... src/image_analyzer.s
+	@echo ... src/json_parser.obj
+	@echo ... src/json_parser.i
+	@echo ... src/json_parser.s
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
+	@echo ... src/text_classifier.obj
+	@echo ... src/text_classifier.i
+	@echo ... src/text_classifier.s
 .PHONY : help
 
 
