@@ -22,5 +22,17 @@
     "caption": "헬스장 운동 완료 벤치프레스 신기록",
     "hashtags": "#운동 #헬스 #fitness",
     "image_path": "data/images/post_004.jpg"
+  },
+  {
+    "post_id": "post_005",
+    "caption": "오늘 코디 너무 마음에 들어 봄 신상",
+    "hashtags": "#패션 #ootd #코디",
+    "image_path": "data/images/post_005.jpg"
+  },
+  {
+    "post_id": "post_006",
+    "caption": "강아지 너무 귀여워 산책 다녀왔어",
+    "hashtags": "#반려동물 #강아지 #펫",
+    "image_path": "data/images/post_006.jpg"
   }
 ]
