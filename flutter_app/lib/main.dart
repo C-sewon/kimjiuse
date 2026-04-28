@@ -1,3 +1,4 @@
+import 'splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class BookmarkApp extends StatelessWidget {
         cardColor: Color(0xFF1E1E2E),
         scaffoldBackgroundColor: Color(0xFF13131F),
       ),
-      home: HomeScreen(),
+      home: SplashScreen(),
     );
   }
 }
