@@ -9,6 +9,7 @@ add_executable(classifier
     src/json_parser.c
     src/text_classifier.cpp
     src/image_analyzer.cpp
+    src/feedback_engine.cpp
 )
 
 target_include_directories(classifier PRIVATE include)
