@@ -1,6 +1,6 @@
 // flutter_app/lib/splash_screen.dart
 import 'package:flutter/material.dart';
-import 'main.dart';
+import 'main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -19,7 +19,7 @@ class _SplashScreenState
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (_) => HomeScreen()),
+            builder: (_) => MainScreen()),
       );
     });
   }
@@ -27,7 +27,7 @@ class _SplashScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF13131F),
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment:
@@ -56,7 +56,7 @@ class _SplashScreenState
             ),
             SizedBox(height: 48),
             CircularProgressIndicator(
-              color: Colors.indigo,
+              color: Color(0xFF7F77DD),
             ),
           ],
         ),
