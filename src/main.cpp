@@ -1,3 +1,7 @@
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #include <stdio.h>
 #include "db_handler.h"
 #include "json_parser.h"
@@ -5,6 +9,10 @@
 #include "image_analyzer.h"
 
 int main() {
+#ifdef _WIN32
+    SetConsoleOutputCP(65001);
+#endif
+
     printf("=== 북마크 분류기 시작 ===\n\n");
 
     // 1. DB 초기화
@@ -34,9 +42,12 @@ int main() {
                   text_result.category,
                   text_result.confidence);
 
-        printf("게시물 [%s]\n", bookmarks[i].post_id);
-        printf("캡션: %s\n", bookmarks[i].caption);
-        printf("해시태그: %s\n", bookmarks[i].hashtags);
+        printf("게시물 [%s]\n",
+               bookmarks[i].post_id);
+        printf("캡션: %s\n",
+               bookmarks[i].caption);
+        printf("해시태그: %s\n",
+               bookmarks[i].hashtags);
         printf("분류 결과: %s (%.0f%%)\n\n",
                text_result.category,
                text_result.confidence * 100);

@@ -1,1 +1,1 @@
--IC:/kimjiuse/kimjiuse/include
+-IC:/kimjiuse/kimjiuse/include -I"C:/vcpkg/installed/x64-windows/include"

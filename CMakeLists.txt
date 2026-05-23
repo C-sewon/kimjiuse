@@ -12,4 +12,11 @@ add_executable(classifier
     src/feedback_engine.cpp
 )
 
-target_include_directories(classifier PRIVATE include)
+target_include_directories(classifier PRIVATE 
+    include
+    C:/vcpkg/installed/x64-windows/include
+)
+
+target_link_libraries(classifier
+    C:/vcpkg/installed/x64-windows/lib/sqlite3.lib
+)

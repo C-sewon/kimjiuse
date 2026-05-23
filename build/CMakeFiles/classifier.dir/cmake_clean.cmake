@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/classifier.dir/src/db_handler.cpp.obj"
   "CMakeFiles/classifier.dir/src/db_handler.cpp.obj.d"
+  "CMakeFiles/classifier.dir/src/feedback_engine.cpp.obj"
+  "CMakeFiles/classifier.dir/src/feedback_engine.cpp.obj.d"
   "CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj"
   "CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj.d"
   "CMakeFiles/classifier.dir/src/json_parser.c.obj"
