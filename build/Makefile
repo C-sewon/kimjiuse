@@ -152,6 +152,30 @@ src/db_handler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.s
 .PHONY : src/db_handler.cpp.s
 
+src/feedback_engine.obj: src/feedback_engine.cpp.obj
+.PHONY : src/feedback_engine.obj
+
+# target to build an object file
+src/feedback_engine.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/feedback_engine.cpp.obj
+.PHONY : src/feedback_engine.cpp.obj
+
+src/feedback_engine.i: src/feedback_engine.cpp.i
+.PHONY : src/feedback_engine.i
+
+# target to preprocess a source file
+src/feedback_engine.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/feedback_engine.cpp.i
+.PHONY : src/feedback_engine.cpp.i
+
+src/feedback_engine.s: src/feedback_engine.cpp.s
+.PHONY : src/feedback_engine.s
+
+# target to generate assembly for a file
+src/feedback_engine.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/feedback_engine.cpp.s
+.PHONY : src/feedback_engine.cpp.s
+
 src/image_analyzer.obj: src/image_analyzer.cpp.obj
 .PHONY : src/image_analyzer.obj
 
@@ -260,6 +284,9 @@ help:
 	@echo ... src/db_handler.obj
 	@echo ... src/db_handler.i
 	@echo ... src/db_handler.s
+	@echo ... src/feedback_engine.obj
+	@echo ... src/feedback_engine.i
+	@echo ... src/feedback_engine.s
 	@echo ... src/image_analyzer.obj
 	@echo ... src/image_analyzer.i
 	@echo ... src/image_analyzer.s
