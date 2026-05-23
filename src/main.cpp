@@ -1,5 +1,6 @@
 #ifdef _WIN32
 #include <windows.h>
+#include <direct.h>
 #endif
 
 #include <stdio.h>
@@ -11,6 +12,7 @@
 int main() {
 #ifdef _WIN32
     SetConsoleOutputCP(65001);
+    _mkdir("data");
 #endif
 
     printf("=== 북마크 분류기 시작 ===\n\n");
