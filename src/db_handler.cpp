@@ -1,4 +1,5 @@
 #include "db_handler.h"
+#include "logger.h"
 #include <sqlite3.h>
 #include <stdio.h>
 #include <string.h>
@@ -6,9 +7,11 @@
 static sqlite3* db = NULL;
 
 int db_init(const char* db_path) {
-    int rc = sqlite3_open(db_path, &db);
+    logger_init("data/app.log");
 
+    int rc = sqlite3_open(db_path, &db);
     if (rc != SQLITE_OK) {
+        LOG_ERROR("DB 열기 실패");
         printf("DB 열기 실패: %s\n",
                sqlite3_errmsg(db));
         return -1;
@@ -29,11 +32,13 @@ int db_init(const char* db_path) {
     rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
 
     if (rc != SQLITE_OK) {
+        LOG_ERROR("테이블 생성 실패");
         printf("테이블 생성 실패: %s\n", err_msg);
         sqlite3_free(err_msg);
         return -1;
     }
 
+    LOG_INFO("DB 초기화 완료");
     printf("DB 초기화 완료: %s\n", db_path);
     return 0;
 }
@@ -42,9 +47,15 @@ int db_insert(const char* post_id,
               const char* category,
               float confidence) {
     if (db == NULL) {
+        LOG_ERROR("DB가 초기화되지 않음");
         printf("오류: DB가 초기화되지 않음\n");
         return -1;
     }
+
+    char msg[100];
+    sprintf(msg, "저장: %s -> %s",
+            post_id, category);
+    LOG_INFO(msg);
 
     char sql[500];
     sprintf(sql,
@@ -58,6 +69,7 @@ int db_insert(const char* post_id,
                           0, 0, &err_msg);
 
     if (rc != SQLITE_OK) {
+        LOG_ERROR("저장 실패");
         printf("저장 실패: %s\n", err_msg);
         sqlite3_free(err_msg);
         return -1;
@@ -84,6 +96,7 @@ int db_update_category(const char* post_id,
                           0, 0, &err_msg);
 
     if (rc != SQLITE_OK) {
+        LOG_ERROR("수정 실패");
         printf("수정 실패: %s\n", err_msg);
         sqlite3_free(err_msg);
         return -1;
@@ -101,7 +114,10 @@ char** db_query_by_category(const char* category,
         return NULL;
     }
 
-    printf("조회: %s 카테고리\n", category);
+    char msg[100];
+    sprintf(msg, "조회: %s 카테고리", category);
+    LOG_INFO(msg);
+
     *result_count = 0;
     return NULL;
 }
@@ -110,6 +126,8 @@ void db_close(void) {
     if (db != NULL) {
         sqlite3_close(db);
         db = NULL;
+        LOG_INFO("DB 종료");
         printf("DB 종료\n");
+        logger_close();
     }
 }
