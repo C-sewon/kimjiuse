@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'classifier_bridge.dart';
 
 class ClassifyScreen extends StatefulWidget {
@@ -11,11 +13,9 @@ class _ClassifyScreenState
     extends State<ClassifyScreen> {
 
   final urlController = TextEditingController();
-  final captionController = TextEditingController();
-  final hashtagsController = TextEditingController();
-
   List<Map<String, dynamic>> results = [];
   bool isLoading = false;
+  String statusMessage = '';
 
   @override
   void initState() {
@@ -23,37 +23,71 @@ class _ClassifyScreenState
     initDatabase();
   }
 
-  void classify() {
-    if (captionController.text.isEmpty) return;
+  Future<void> collectAndClassify() async {
+    if (urlController.text.isEmpty) return;
 
     setState(() {
       isLoading = true;
+      statusMessage = '데이터 수집 중...';
     });
 
-    // C++ 분류 함수 호출
-    final result = classifyBookmark(
-      captionController.text,
-      hashtagsController.text,
-    );
+    try {
+      // 1. Python 서버에 URL 전송
+      final response = await http.post(
+        Uri.parse('http://127.0.0.1:8000/collect'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'url': urlController.text
+        }),
+      );
 
-    // DB 저장
-    saveBookmark(
-      'post_${DateTime.now().millisecondsSinceEpoch}',
-      result['category'],
-      result['confidence'],
-    );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
 
-    setState(() {
-      results.insert(0, {
-        'caption': captionController.text,
-        'hashtags': hashtagsController.text,
-        'category': result['category'],
-        'confidence': result['confidence'],
+        if (data['success'] == true) {
+          setState(() {
+            statusMessage = 'C++ 분류 중...';
+          });
+
+          // 2. C++ 엔진으로 분류
+          final result = classifyBookmark(
+            data['caption'],
+            data['hashtags'],
+          );
+
+          // 3. DB 저장
+          saveBookmark(
+            data['post_id'],
+            result['category'],
+            result['confidence'],
+          );
+
+          // 4. 화면 업데이트
+          setState(() {
+            results.insert(0, {
+              'post_id': data['post_id'],
+              'caption': data['caption'],
+              'hashtags': data['hashtags'],
+              'category': result['category'],
+              'confidence': result['confidence'],
+            });
+            statusMessage = '분류 완료!';
+            isLoading = false;
+            urlController.clear();
+          });
+        } else {
+          setState(() {
+            statusMessage = data['message'];
+            isLoading = false;
+          });
+        }
+      }
+    } catch (e) {
+      setState(() {
+        statusMessage = '서버 연결 실패: 서버를 먼저 실행해주세요';
+        isLoading = false;
       });
-      isLoading = false;
-      captionController.clear();
-      hashtagsController.clear();
-    });
+    }
   }
 
   @override
@@ -68,24 +102,13 @@ class _ClassifyScreenState
         padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            // 캡션 입력
+            // URL 입력창
             TextField(
-              controller: captionController,
+              controller: urlController,
               decoration: InputDecoration(
-                hintText: '캡션 입력',
-                border: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(12),
-                ),
-              ),
-            ),
-            SizedBox(height: 8),
-
-            // 해시태그 입력
-            TextField(
-              controller: hashtagsController,
-              decoration: InputDecoration(
-                hintText: '해시태그 입력 (#맛집 #점심)',
+                hintText: '인스타그램 URL 입력',
+                hintStyle: TextStyle(
+                    color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius:
                       BorderRadius.circular(12),
@@ -98,9 +121,12 @@ class _ClassifyScreenState
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: isLoading ? null : classify,
+                onPressed: isLoading
+                    ? null
+                    : collectAndClassify,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF7F77DD),
+                  backgroundColor:
+                      Color(0xFF7F77DD),
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(
                       vertical: 16),
@@ -110,21 +136,64 @@ class _ClassifyScreenState
                   ),
                 ),
                 child: isLoading
-                    ? CircularProgressIndicator(
-                        color: Colors.white)
+                    ? Row(
+                        mainAxisAlignment:
+                            MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 20,
+                            height: 20,
+                            child:
+                                CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Text(statusMessage),
+                        ],
+                      )
                     : Text('분류하기'),
               ),
             ),
+
+            // 상태 메시지
+            if (statusMessage.isNotEmpty &&
+                !isLoading)
+              Padding(
+                padding: EdgeInsets.only(top: 8),
+                child: Text(
+                  statusMessage,
+                  style: TextStyle(
+                    color: statusMessage.contains('실패')
+                        ? Colors.red
+                        : Colors.green,
+                  ),
+                ),
+              ),
+
             SizedBox(height: 16),
 
             // 결과 목록
             Expanded(
               child: results.isEmpty
                   ? Center(
-                      child: Text(
-                        '캡션과 해시태그를 입력하세요',
-                        style: TextStyle(
-                            color: Colors.grey),
+                      child: Column(
+                        mainAxisAlignment:
+                            MainAxisAlignment.center,
+                        children: [
+                          Text('📌',
+                              style: TextStyle(
+                                  fontSize: 50)),
+                          SizedBox(height: 16),
+                          Text(
+                            '인스타그램 URL을 입력하면\nAI가 자동으로 분류해드립니다',
+                            textAlign:
+                                TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.grey),
+                          ),
+                        ],
                       ),
                     )
                   : ListView.builder(
@@ -133,12 +202,35 @@ class _ClassifyScreenState
                         return Card(
                           margin: EdgeInsets.only(
                               bottom: 8),
-                          shape: RoundedRectangleBorder(
+                          shape:
+                              RoundedRectangleBorder(
                             borderRadius:
                                 BorderRadius.circular(
                                     12),
                           ),
                           child: ListTile(
+                            contentPadding:
+                                EdgeInsets.all(12),
+                            leading: Container(
+                              width: 50,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF7F77DD)
+                                    .withOpacity(0.2),
+                                borderRadius:
+                                    BorderRadius
+                                        .circular(12),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  _getCategoryIcon(
+                                      results[i]
+                                          ['category']),
+                                  style: TextStyle(
+                                      fontSize: 24),
+                                ),
+                              ),
+                            ),
                             title: Text(
                               results[i]['category'],
                               style: TextStyle(
@@ -147,7 +239,11 @@ class _ClassifyScreenState
                               ),
                             ),
                             subtitle: Text(
-                                results[i]['caption']),
+                              results[i]['caption'],
+                              maxLines: 1,
+                              overflow:
+                                  TextOverflow.ellipsis,
+                            ),
                             trailing: Text(
                               '${(results[i]['confidence'] * 100).toStringAsFixed(0)}%',
                               style: TextStyle(
@@ -168,10 +264,23 @@ class _ClassifyScreenState
     );
   }
 
+  String _getCategoryIcon(String category) {
+    switch (category) {
+      case '맛집':    return '🍔';
+      case '개발':    return '💻';
+      case '여행':    return '✈️';
+      case '운동':    return '💪';
+      case '패션':    return '👗';
+      case '뷰티':    return '💄';
+      case '반려동물': return '🐶';
+      case '인테리어': return '🏠';
+      case '독서':    return '📚';
+      default:       return '📌';
+    }
+  }
+
   @override
   void dispose() {
-    captionController.dispose();
-    hashtagsController.dispose();
     urlController.dispose();
     closeDatabase();
     super.dispose();
