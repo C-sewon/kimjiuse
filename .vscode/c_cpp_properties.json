@@ -4,7 +4,8 @@
       "name": "Win32",
       "includePath": [
         "${workspaceFolder}/include",
-        "${workspaceFolder}/src"
+        "${workspaceFolder}/src",
+        "C:/vcpkg/installed/x64-windows/include"
       ],
       "compilerPath": "C:/mingw64/bin/g++.exe",
       "cStandard": "c17",
