@@ -128,12 +128,50 @@ classifier/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/build
 .PHONY : classifier/fast
 
+#=============================================================================
+# Target rules for targets named classifier_lib
+
+# Build rule for target.
+classifier_lib: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 classifier_lib
+.PHONY : classifier_lib
+
+# fast build rule for target.
+classifier_lib/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/build
+.PHONY : classifier_lib/fast
+
+src/classifier_api.obj: src/classifier_api.cpp.obj
+.PHONY : src/classifier_api.obj
+
+# target to build an object file
+src/classifier_api.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/classifier_api.cpp.obj
+.PHONY : src/classifier_api.cpp.obj
+
+src/classifier_api.i: src/classifier_api.cpp.i
+.PHONY : src/classifier_api.i
+
+# target to preprocess a source file
+src/classifier_api.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/classifier_api.cpp.i
+.PHONY : src/classifier_api.cpp.i
+
+src/classifier_api.s: src/classifier_api.cpp.s
+.PHONY : src/classifier_api.s
+
+# target to generate assembly for a file
+src/classifier_api.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/classifier_api.cpp.s
+.PHONY : src/classifier_api.cpp.s
+
 src/db_handler.obj: src/db_handler.cpp.obj
 .PHONY : src/db_handler.obj
 
 # target to build an object file
 src/db_handler.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/db_handler.cpp.obj
 .PHONY : src/db_handler.cpp.obj
 
 src/db_handler.i: src/db_handler.cpp.i
@@ -142,6 +180,7 @@ src/db_handler.i: src/db_handler.cpp.i
 # target to preprocess a source file
 src/db_handler.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/db_handler.cpp.i
 .PHONY : src/db_handler.cpp.i
 
 src/db_handler.s: src/db_handler.cpp.s
@@ -150,6 +189,7 @@ src/db_handler.s: src/db_handler.cpp.s
 # target to generate assembly for a file
 src/db_handler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/db_handler.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/db_handler.cpp.s
 .PHONY : src/db_handler.cpp.s
 
 src/feedback_engine.obj: src/feedback_engine.cpp.obj
@@ -158,6 +198,7 @@ src/feedback_engine.obj: src/feedback_engine.cpp.obj
 # target to build an object file
 src/feedback_engine.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/feedback_engine.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/feedback_engine.cpp.obj
 .PHONY : src/feedback_engine.cpp.obj
 
 src/feedback_engine.i: src/feedback_engine.cpp.i
@@ -166,6 +207,7 @@ src/feedback_engine.i: src/feedback_engine.cpp.i
 # target to preprocess a source file
 src/feedback_engine.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/feedback_engine.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/feedback_engine.cpp.i
 .PHONY : src/feedback_engine.cpp.i
 
 src/feedback_engine.s: src/feedback_engine.cpp.s
@@ -174,6 +216,7 @@ src/feedback_engine.s: src/feedback_engine.cpp.s
 # target to generate assembly for a file
 src/feedback_engine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/feedback_engine.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/feedback_engine.cpp.s
 .PHONY : src/feedback_engine.cpp.s
 
 src/image_analyzer.obj: src/image_analyzer.cpp.obj
@@ -182,6 +225,7 @@ src/image_analyzer.obj: src/image_analyzer.cpp.obj
 # target to build an object file
 src/image_analyzer.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/image_analyzer.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/image_analyzer.cpp.obj
 .PHONY : src/image_analyzer.cpp.obj
 
 src/image_analyzer.i: src/image_analyzer.cpp.i
@@ -190,6 +234,7 @@ src/image_analyzer.i: src/image_analyzer.cpp.i
 # target to preprocess a source file
 src/image_analyzer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/image_analyzer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/image_analyzer.cpp.i
 .PHONY : src/image_analyzer.cpp.i
 
 src/image_analyzer.s: src/image_analyzer.cpp.s
@@ -198,6 +243,7 @@ src/image_analyzer.s: src/image_analyzer.cpp.s
 # target to generate assembly for a file
 src/image_analyzer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/image_analyzer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/image_analyzer.cpp.s
 .PHONY : src/image_analyzer.cpp.s
 
 src/json_parser.obj: src/json_parser.c.obj
@@ -206,6 +252,7 @@ src/json_parser.obj: src/json_parser.c.obj
 # target to build an object file
 src/json_parser.c.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/json_parser.c.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/json_parser.c.obj
 .PHONY : src/json_parser.c.obj
 
 src/json_parser.i: src/json_parser.c.i
@@ -214,6 +261,7 @@ src/json_parser.i: src/json_parser.c.i
 # target to preprocess a source file
 src/json_parser.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/json_parser.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/json_parser.c.i
 .PHONY : src/json_parser.c.i
 
 src/json_parser.s: src/json_parser.c.s
@@ -222,6 +270,7 @@ src/json_parser.s: src/json_parser.c.s
 # target to generate assembly for a file
 src/json_parser.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/json_parser.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/json_parser.c.s
 .PHONY : src/json_parser.c.s
 
 src/main.obj: src/main.cpp.obj
@@ -254,6 +303,7 @@ src/text_classifier.obj: src/text_classifier.cpp.obj
 # target to build an object file
 src/text_classifier.cpp.obj:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/text_classifier.cpp.obj
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/text_classifier.cpp.obj
 .PHONY : src/text_classifier.cpp.obj
 
 src/text_classifier.i: src/text_classifier.cpp.i
@@ -262,6 +312,7 @@ src/text_classifier.i: src/text_classifier.cpp.i
 # target to preprocess a source file
 src/text_classifier.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/text_classifier.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/text_classifier.cpp.i
 .PHONY : src/text_classifier.cpp.i
 
 src/text_classifier.s: src/text_classifier.cpp.s
@@ -270,6 +321,7 @@ src/text_classifier.s: src/text_classifier.cpp.s
 # target to generate assembly for a file
 src/text_classifier.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier.dir\build.make CMakeFiles/classifier.dir/src/text_classifier.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\classifier_lib.dir\build.make CMakeFiles/classifier_lib.dir/src/text_classifier.cpp.s
 .PHONY : src/text_classifier.cpp.s
 
 # Help Target
@@ -281,6 +333,10 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... classifier
+	@echo ... classifier_lib
+	@echo ... src/classifier_api.obj
+	@echo ... src/classifier_api.i
+	@echo ... src/classifier_api.s
 	@echo ... src/db_handler.obj
 	@echo ... src/db_handler.i
 	@echo ... src/db_handler.s
