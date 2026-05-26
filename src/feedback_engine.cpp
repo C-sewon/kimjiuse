@@ -1,34 +1,36 @@
 #include "feedback_engine.h"
+#include "logger.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-// 가중치 테이블
-// 키워드별로 카테고리 점수 저장
 typedef struct {
     char keyword[50];
     char category[50];
     float weight;
 } WeightEntry;
 
-// 최대 100개 가중치 저장
 static WeightEntry weights[100];
 static int weight_count = 0;
 
 void feedback_init() {
     weight_count = 0;
+    LOG_INFO("피드백 엔진 초기화 완료");
     printf("피드백 엔진 초기화 완료\n");
 }
 
 void update_weight(const char* keyword,
                    const char* correct_category,
                    float delta) {
-    // 기존 가중치 찾기
     for (int i = 0; i < weight_count; i++) {
         if (strcmp(weights[i].keyword, keyword) == 0 &&
-            strcmp(weights[i].category,
-                   correct_category) == 0) {
+            strcmp(weights[i].category, correct_category) == 0) {
             weights[i].weight += delta;
+
+            char msg[200];
+            sprintf(msg, "가중치 업데이트: %s → %s", keyword, correct_category);
+            LOG_INFO(msg);
+
             printf("가중치 업데이트: %s → %s (%.2f)\n",
                    keyword, correct_category,
                    weights[i].weight);
@@ -36,15 +38,12 @@ void update_weight(const char* keyword,
         }
     }
 
-    // 새 가중치 추가
     if (weight_count < 100) {
         strcpy(weights[weight_count].keyword, keyword);
-        strcpy(weights[weight_count].category,
-               correct_category);
+        strcpy(weights[weight_count].category, correct_category);
         weights[weight_count].weight = delta;
         weight_count++;
-        printf("새 가중치 추가: %s → %s\n",
-               keyword, correct_category);
+        printf("새 가중치 추가: %s → %s\n", keyword, correct_category);
     }
 }
 
