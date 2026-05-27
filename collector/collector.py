@@ -9,16 +9,23 @@ L = instaloader.Instaloader()
 def extract_shortcode(url: str) -> str:
     """
     인스타그램 URL에서 shortcode 추출
-    예: https://www.instagram.com/p/ABC123/
-        → ABC123
     """
     try:
-        shortcode = url.split("/p/")[1].split("/")[0]
-        return shortcode
+        # ?utm_source 같은 파라미터 제거
+        url = url.split("?")[0]
+        url = url.rstrip("/")
+
+        if "/p/" in url:
+            shortcode = url.split("/p/")[-1]
+            return shortcode
+        elif "/reel/" in url:
+            shortcode = url.split("/reel/")[-1]
+            return shortcode
+        return None
     except Exception as e:
         print(f"URL 파싱 오류: {e}")
         return None
-
+    
 def collect_post(url: str) -> dict:
     """
     인스타그램 URL에서 게시물 데이터 수집
