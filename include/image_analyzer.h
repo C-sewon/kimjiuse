@@ -12,4 +12,7 @@ typedef struct {
 // image_path: 이미지 파일 경로
 ImageLabels analyze_image(const char* image_path);
 
+//새로 추가
+void print_labels(ImageLabels labels);
+
 #endif
