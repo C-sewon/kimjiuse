@@ -53,3 +53,26 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# 로그 파일
+data/app.log
+
+# DB 파일
+data/bookmarks.db
+
+# 빌드 결과물
+/build/
+*.exe
+*.dll
+*.a
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Flutter
+flutter_app/build/
+flutter_app/.dart_tool/
+flutter_app/.flutter-plugins
+flutter_app/.flutter-plugins-dependencies
