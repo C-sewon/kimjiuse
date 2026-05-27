@@ -1,5 +1,8 @@
 import 'dart:ffi';
 import 'package:ffi/ffi.dart';
+import 'package:logger/logger.dart';
+
+final logger = Logger();
 
 typedef InitDbNative = Int32 Function(Pointer<Utf8>);
 typedef InitDbDart = int Function(Pointer<Utf8>);
@@ -37,13 +40,17 @@ final closeDbFunc =
         'close_db');
 
 void initDatabase() {
+  logger.i('DB 초기화 시작');
   final path = 'data/bookmarks.db'.toNativeUtf8();
   initDbFunc(path);
   malloc.free(path);
+  logger.i('DB 초기화 완료');
 }
 
 Map<String, dynamic> classifyBookmark(
     String caption, String hashtags) {
+  logger.i('분류 시작: $caption');
+
   final captionPtr = caption.toNativeUtf8();
   final hashtagsPtr = hashtags.toNativeUtf8();
 
@@ -55,6 +62,10 @@ Map<String, dynamic> classifyBookmark(
   malloc.free(hashtagsPtr);
 
   final parts = result.split(':');
+  final category = parts[0];
+  final confidence = double.parse(parts[1]);
+
+  logger.i('분류 완료: $category');
   return {
     'category': parts[0],
     'confidence': double.parse(parts[1]),
