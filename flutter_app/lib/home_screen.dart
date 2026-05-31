@@ -1,24 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'category_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomeScreenState createState() =>
+      _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final categories = [
-    {'name': '맛집',     'icon': '🍔', 'count': 12},
-    {'name': '개발',     'icon': '💻', 'count': 8},
-    {'name': '여행',     'icon': '✈️',  'count': 15},
-    {'name': '운동',     'icon': '💪', 'count': 6},
-    {'name': '패션',     'icon': '👗', 'count': 4},
-    {'name': '뷰티',     'icon': '💄', 'count': 3},
-    {'name': '반려동물', 'icon': '🐶', 'count': 5},
-    {'name': '인테리어', 'icon': '🏠', 'count': 2},
-    {'name': '독서',     'icon': '📚', 'count': 7},
-    {'name': '기타',     'icon': '📌', 'count': 3},
-  ];
+
+  final Map<String, String> categoryIcons = {
+    '맛집':    '🍔',
+    '개발':    '💻',
+    '여행':    '✈️',
+    '운동':    '💪',
+    '패션':    '👗',
+    '뷰티':    '💄',
+    '반려동물': '🐶',
+    '인테리어': '🏠',
+    '독서':    '📚',
+    '기타':    '📌',
+  };
+
+  List<Map<String, dynamic>> categories = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadCategories();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    loadCategories();  // ← 탭 이동할 때마다 실행
+  }
+  
+    // 서버에서 북마크 데이터 불러오기
+  Future<void> loadCategories() async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://127.0.0.1:8000/bookmarks'),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final bookmarks = data['bookmarks'] as List;
+
+        // 카테고리별 count 계산
+        Map<String, int> countMap = {};
+        for (var bookmark in bookmarks) {
+          String category = bookmark['category'] ?? '기타';
+          countMap[category] =
+              (countMap[category] ?? 0) + 1;
+        }
+
+        // 카테고리 목록 생성
+        List<Map<String, dynamic>> newCategories = [];
+
+        // 기본 카테고리 먼저 추가
+        categoryIcons.forEach((name, icon) {
+          newCategories.add({
+            'name': name,
+            'icon': icon,
+            'count': countMap[name] ?? 0,
+          });
+        });
+
+        // count 기준으로 정렬
+        newCategories.sort((a, b) =>
+            (b['count'] as int).compareTo(
+                a['count'] as int));
+
+        setState(() {
+          categories = newCategories;
+          isLoading = false;
+        });
+      }
+    } catch (e) {
+      // 서버 연결 실패시 기본 데이터 표시
+      setState(() {
+        categories = categoryIcons.entries.map((e) =>
+          {'name': e.key, 'icon': e.value, 'count': 0}
+        ).toList();
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,68 +97,95 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('내 북마크',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        )),
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            )),
         centerTitle: true,
         backgroundColor: Color(0xFF7F77DD),
         foregroundColor: Colors.white,
+        actions: [
+          // 새로고침 버튼
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () {
+              setState(() {
+                isLoading = true;
+              });
+              loadCategories();
+            },
+          ),
+        ],
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(16),
-        itemCount: categories.length,
-        itemBuilder: (ctx, i) {
-          return Card(
-            color: const Color(0xFFF5F4ED),
-            elevation: 0,
-            margin: EdgeInsets.only(bottom: 12),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: ListTile(
-              contentPadding: EdgeInsets.all(12),
-              leading: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Color(0xFFEEEDFE),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(
-                    categories[i]['icon'] as String,
-                    style: TextStyle(fontSize: 24),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(
+                color: Color(0xFF7F77DD),
+              ),
+            )
+          : ListView.builder(
+              padding: EdgeInsets.all(16),
+              itemCount: categories.length,
+              itemBuilder: (ctx, i) {
+                return Card(
+                  color: const Color(0xFFF5F4ED),
+                  elevation: 0,
+                  margin: EdgeInsets.only(bottom: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(12),
                   ),
-                ),
-              ),
-              title: Text(
-                categories[i]['name'] as String,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Text(
-                '${categories[i]['count']}개의 게시물',
-                style: TextStyle(color: Colors.grey),
-              ),
-              trailing: Icon(Icons.arrow_forward_ios, size: 16),
-              onTap: () {
-                Navigator.push(
-                  ctx,
-                  MaterialPageRoute(
-                    builder: (_) => CategoryScreen(
-                      categories[i]['name'] as String,
-                      categories[i]['icon'] as String,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(12),
+                    leading: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Color(0xFFEEEDFE),
+                        borderRadius:
+                            BorderRadius.circular(12),
+                      ),
+                      child: Center(
+                        child: Text(
+                          categories[i]['icon']
+                              as String,
+                          style:
+                              TextStyle(fontSize: 24),
+                        ),
+                      ),
                     ),
+                    title: Text(
+                      categories[i]['name'] as String,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      '${categories[i]['count']}개의 게시물',
+                      style:
+                          TextStyle(color: Colors.grey),
+                    ),
+                    trailing: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16),
+                    onTap: () {
+                      Navigator.push(
+                        ctx,
+                        MaterialPageRoute(
+                          builder: (_) => CategoryScreen(
+                            categories[i]['name']
+                                as String,
+                            categories[i]['icon']
+                                as String,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 );
               },
             ),
-          );
-        },
-      ),
     );
   }
 }
