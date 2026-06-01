@@ -164,5 +164,5 @@ class _CategoryScreenState
                   },
                 ),
     );
-  }
+  } 
 }
