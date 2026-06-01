@@ -68,7 +68,27 @@ class CollectResponse(BaseModel):
     post_id: str = ""
     caption: str = ""
     hashtags: str = ""
+    catagory: str = ""
     message: str = ""
+
+class SaveRequest(BaseModel):
+    post_id: str
+    caption: str
+    hashtags: str
+    category: str
+    confidence: float
+
+@app.post("/save")
+def save(request: SaveRequest):
+    data = {
+        "post_id": request.post_id,
+        "caption": request.caption,
+        "hashtags": request.hashtags,
+        "category": request.category,
+        "confidence": request.confidence,
+    }
+    save_to_json(data, "data/bookmarks.json")
+    return {"success": True}
 
 @app.get("/")
 def root():
@@ -102,6 +122,7 @@ def collect(request: UrlRequest):
         post_id=data["post_id"],
         caption=data["caption"],
         hashtags=data["hashtags"],
+        category=category,
         message="수집 성공"
     )
 
