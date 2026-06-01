@@ -68,6 +68,7 @@ class CollectResponse(BaseModel):
     post_id: str = ""
     caption: str = ""
     hashtags: str = ""
+    catagory: str = ""
     message: str = ""
 
 class SaveRequest(BaseModel):
@@ -121,6 +122,7 @@ def collect(request: UrlRequest):
         post_id=data["post_id"],
         caption=data["caption"],
         hashtags=data["hashtags"],
+        category=category,
         message="수집 성공"
     )
 
