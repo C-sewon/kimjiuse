@@ -61,6 +61,21 @@ class _ClassifyScreenState
             result['category'],
             result['confidence'],
           );
+          
+          Map<String, String> icons = {
+            '맛집':    '🍔',
+            '개발':    '💻',
+            '여행':    '✈️',
+            '운동':    '💪',
+            '패션':    '👗',
+            '뷰티':    '💄',
+            '반려동물': '🐶',
+            '인테리어': '🏠',
+            '독서':    '📚',
+            '기타':    '📌',
+          };
+
+          String icon = icons[result['category']] ?? '📌';
 
           // 4. 화면 업데이트
           setState(() {
