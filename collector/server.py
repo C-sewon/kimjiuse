@@ -70,6 +70,25 @@ class CollectResponse(BaseModel):
     hashtags: str = ""
     message: str = ""
 
+class SaveRequest(BaseModel):
+    post_id: str
+    caption: str
+    hashtags: str
+    category: str
+    confidence: float
+
+@app.post("/save")
+def save(request: SaveRequest):
+    data = {
+        "post_id": request.post_id,
+        "caption": request.caption,
+        "hashtags": request.hashtags,
+        "category": request.category,
+        "confidence": request.confidence,
+    }
+    save_to_json(data, "data/bookmarks.json")
+    return {"success": True}
+
 @app.get("/")
 def root():
     return {"message": "북마크 분류기 서버 동작 중"}
