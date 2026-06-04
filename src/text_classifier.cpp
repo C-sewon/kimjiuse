@@ -6,9 +6,11 @@
 ClassifyResult classify_text(const char* caption,
                               const char* hashtags) {
     LOG_INFO("텍스트 분류 시작");
-
+    if (caption == NULL) caption = "";
+    if (hashtags == NULL) hashtags = "";
+    
     ClassifyResult result;
-    result.confidence = 0.9f;
+    result.confidence = 0.7f;
 
     if (strstr(caption, "맛집") ||
         strstr(hashtags, "맛집") ||
