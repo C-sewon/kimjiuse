@@ -36,9 +36,7 @@ class _ClassifyScreenState
       final response = await http.post(
         Uri.parse('http://127.0.0.1:8000/collect'),
         headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          'url': urlController.text
-        }),
+        body: jsonEncode({'url': urlController.text}),
       );
 
       if (response.statusCode == 200) {
@@ -61,23 +59,22 @@ class _ClassifyScreenState
             result['category'],
             result['confidence'],
           );
-          
-          Map<String, String> icons = {
-            '맛집':    '🍔',
-            '개발':    '💻',
-            '여행':    '✈️',
-            '운동':    '💪',
-            '패션':    '👗',
-            '뷰티':    '💄',
-            '반려동물': '🐶',
-            '인테리어': '🏠',
-            '독서':    '📚',
-            '기타':    '📌',
-          };
 
-          String icon = icons[result['category']] ?? '📌';
+          // 4. Python 서버 JSON에도 저장
+          await http.post(
+            Uri.parse('http://127.0.0.1:8000/save'),
+            headers: {
+              'Content-Type': 'application/json'},
+            body: jsonEncode({
+              'post_id': data['post_id'],
+              'caption': data['caption'],
+              'hashtags': data['hashtags'],
+              'category': result['category'],
+              'confidence': result['confidence'],
+            }),
+          );
 
-          // 4. 화면 업데이트
+          // 5. 화면 업데이트
           setState(() {
             results.insert(0, {
               'post_id': data['post_id'],
@@ -85,6 +82,7 @@ class _ClassifyScreenState
               'hashtags': data['hashtags'],
               'category': result['category'],
               'confidence': result['confidence'],
+              'image_url': data['image_url'] ?? '',
             });
             statusMessage = '분류 완료!';
             isLoading = false;
@@ -122,11 +120,9 @@ class _ClassifyScreenState
               controller: urlController,
               decoration: InputDecoration(
                 hintText: '인스타그램 URL 입력',
-                hintStyle: TextStyle(
-                    color: Colors.grey),
+                hintStyle: TextStyle(color: Colors.grey),
                 border: OutlineInputBorder(
-                  borderRadius:
-                      BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
             ),
@@ -140,8 +136,7 @@ class _ClassifyScreenState
                     ? null
                     : collectAndClassify,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor:
-                      Color(0xFF7F77DD),
+                  backgroundColor: Color(0xFF7F77DD),
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(
                       vertical: 16),
@@ -158,8 +153,7 @@ class _ClassifyScreenState
                           SizedBox(
                             width: 20,
                             height: 20,
-                            child:
-                                CircularProgressIndicator(
+                            child: CircularProgressIndicator(
                               color: Colors.white,
                               strokeWidth: 2,
                             ),
@@ -173,8 +167,7 @@ class _ClassifyScreenState
             ),
 
             // 상태 메시지
-            if (statusMessage.isNotEmpty &&
-                !isLoading)
+            if (statusMessage.isNotEmpty && !isLoading)
               Padding(
                 padding: EdgeInsets.only(top: 8),
                 child: Text(
@@ -203,8 +196,7 @@ class _ClassifyScreenState
                           SizedBox(height: 16),
                           Text(
                             '인스타그램 URL을 입력하면\nAI가 자동으로 분류해드립니다',
-                            textAlign:
-                                TextAlign.center,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colors.grey),
                           ),
@@ -217,41 +209,60 @@ class _ClassifyScreenState
                         return Card(
                           margin: EdgeInsets.only(
                               bottom: 8),
-                          shape:
-                              RoundedRectangleBorder(
+                          shape: RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.circular(
-                                    12),
+                                BorderRadius.circular(12),
                           ),
                           child: ListTile(
                             contentPadding:
                                 EdgeInsets.all(12),
                             leading: Container(
-                              width: 50,
-                              height: 50,
+                              width: 60,
+                              height: 60,
                               decoration: BoxDecoration(
-                                color: Color(0xFF7F77DD)
-                                    .withOpacity(0.2),
                                 borderRadius:
                                     BorderRadius
-                                        .circular(12),
+                                        .circular(8),
                               ),
-                              child: Center(
-                                child: Text(
-                                  _getCategoryIcon(
+                              child: results[i]
+                                              ['image_url'] !=
+                                          null &&
                                       results[i]
-                                          ['category']),
-                                  style: TextStyle(
-                                      fontSize: 24),
-                                ),
-                              ),
+                                              ['image_url'] !=
+                                          ''
+                                  ? ClipRRect(
+                                      borderRadius:
+                                          BorderRadius
+                                              .circular(8),
+                                      child: Image.network(
+                                        results[i]
+                                            ['image_url'],
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (ctx,
+                                                err,
+                                                stack) =>
+                                            Text(
+                                          _getCategoryIcon(
+                                              results[i][
+                                                  'category']),
+                                          style: TextStyle(
+                                              fontSize: 30),
+                                        ),
+                                      ),
+                                    )
+                                  : Text(
+                                      _getCategoryIcon(
+                                          results[i]
+                                              ['category']),
+                                      style: TextStyle(
+                                          fontSize: 30),
+                                    ),
                             ),
                             title: Text(
                               results[i]['category'],
                               style: TextStyle(
-                                fontWeight:
-                                    FontWeight.bold,
-                              ),
+                                  fontWeight:
+                                      FontWeight.bold),
                             ),
                             subtitle: Text(
                               results[i]['caption'],
@@ -262,10 +273,8 @@ class _ClassifyScreenState
                             trailing: Text(
                               '${(results[i]['confidence'] * 100).toStringAsFixed(0)}%',
                               style: TextStyle(
-                                color:
-                                    Color(0xFF7F77DD),
-                                fontWeight:
-                                    FontWeight.bold,
+                                color: Color(0xFF7F77DD),
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                           ),
@@ -281,16 +290,16 @@ class _ClassifyScreenState
 
   String _getCategoryIcon(String category) {
     switch (category) {
-      case '맛집':    return '🍔';
-      case '개발':    return '💻';
-      case '여행':    return '✈️';
-      case '운동':    return '💪';
-      case '패션':    return '👗';
-      case '뷰티':    return '💄';
-      case '반려동물': return '🐶';
-      case '인테리어': return '🏠';
-      case '독서':    return '📚';
-      default:       return '📌';
+      case '맛집':     return '🍔';
+      case '개발':     return '💻';
+      case '여행':     return '✈️';
+      case '운동':     return '💪';
+      case '패션':     return '👗';
+      case '뷰티':     return '💄';
+      case '반려동물':  return '🐶';
+      case '인테리어':  return '🏠';
+      case '독서':     return '📚';
+      default:        return '📌';
     }
   }
 

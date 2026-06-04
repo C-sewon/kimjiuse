@@ -56,7 +56,8 @@ def collect_post(url: str) -> dict:
             "post_id": shortcode,
             "caption": caption,
             "hashtags": " ".join(hashtags),
-            "image_url": url,
+            "image_url": response.json().get(
+                'display_url', ''),
         }
 
         print(f"수집 완료: {shortcode}")
