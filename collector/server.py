@@ -6,13 +6,11 @@ import json
 import os
 import sys
 
-# collector.py 임포트
 sys.path.append(os.path.dirname(__file__))
 from collector import collect_post, save_to_json
 
 app = FastAPI()
 
-# Flutter에서 접근 허용
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -68,7 +66,8 @@ class CollectResponse(BaseModel):
     post_id: str = ""
     caption: str = ""
     hashtags: str = ""
-    catagory: str = ""
+    category: str = ""
+    image_url: str = ""
     message: str = ""
 
 class SaveRequest(BaseModel):
@@ -77,18 +76,7 @@ class SaveRequest(BaseModel):
     hashtags: str
     category: str
     confidence: float
-
-@app.post("/save")
-def save(request: SaveRequest):
-    data = {
-        "post_id": request.post_id,
-        "caption": request.caption,
-        "hashtags": request.hashtags,
-        "category": request.category,
-        "confidence": request.confidence,
-    }
-    save_to_json(data, "data/bookmarks.json")
-    return {"success": True}
+    image_url: str = ""
 
 @app.get("/")
 def root():
@@ -98,7 +86,6 @@ def root():
 def collect(request: UrlRequest):
     print(f"수집 요청: {request.url}")
 
-    # 데이터 수집
     data = collect_post(request.url)
 
     if data is None:
@@ -107,30 +94,37 @@ def collect(request: UrlRequest):
             message="수집 실패: URL을 확인해주세요"
         )
 
-    # C++ 엔진으로 분류
     category = classify_text(
         data["caption"], data["hashtags"])
 
-    # category 추가해서 저장
-    data["category"] = category
+    print(f"분류 결과: {category}")
 
-    # JSON 저장
-    save_to_json(data, "data/bookmarks.json")
-
+    # ← save_to_json 없음! Flutter /save에서만 저장
     return CollectResponse(
         success=True,
         post_id=data["post_id"],
         caption=data["caption"],
         hashtags=data["hashtags"],
         category=category,
+        image_url=data.get("image_url", ""),
         message="수집 성공"
     )
 
+@app.post("/save")
+def save(request: SaveRequest):
+    data = {
+        "post_id": request.post_id,
+        "caption": request.caption,
+        "hashtags": request.hashtags,
+        "category": request.category,
+        "confidence": request.confidence,
+        "image_url": request.image_url,
+    }
+    save_to_json(data, "data/bookmarks.json")
+    return {"success": True}
+
 @app.get("/bookmarks")
 def get_bookmarks():
-    """
-    저장된 북마크 목록 반환
-    """
     try:
         with open("data/bookmarks.json", "r",
                   encoding="utf-8") as f:
@@ -141,9 +135,6 @@ def get_bookmarks():
 
 @app.delete("/bookmarks/{post_id}")
 def delete_bookmark(post_id: str):
-    """
-    북마크 삭제
-    """
     try:
         with open("data/bookmarks.json", "r",
                   encoding="utf-8") as f:
