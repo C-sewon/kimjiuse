@@ -71,6 +71,7 @@ class _ClassifyScreenState
               'hashtags': data['hashtags'],
               'category': result['category'],
               'confidence': result['confidence'],
+              'image_url': data['image_url'] ?? '', 
             }),
           );
 
