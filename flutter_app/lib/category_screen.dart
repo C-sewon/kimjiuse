@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart'; ← 맨 위에 추가
 
 class CategoryScreen extends StatefulWidget {
   final String category;
@@ -46,6 +47,7 @@ class _CategoryScreenState
                 'post_id': b['post_id'] ?? '',
                 'caption': b['caption'] ?? '',
                 'hashtags': b['hashtags'] ?? '',
+                'image_url': b['image_url'] ?? '',
               })
               .toList();
           isLoading = false;
@@ -116,8 +118,36 @@ class _CategoryScreenState
                             BorderRadius.circular(12),
                       ),
                       child: ListTile(
-                        contentPadding:
-                            EdgeInsets.all(12),
+                        contentPadding: EdgeInsets.all(12),
+                        onTap: () async {
+                          final uri = Uri.parse(
+                            'https://www.instagram.com/p/${posts[i]['post_id']}/'
+                          );
+                          if (await canLaunchUrl(uri)) {
+                            await launchUrl(uri,
+                              mode: LaunchMode.externalApplication);
+                          }
+                        },
+                        leading: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: posts[i]['image_url'] != null &&
+                                  posts[i]['image_url'] != ''
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    posts[i]['image_url'],
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (ctx, err, stack) =>
+                                        Text(widget.icon,
+                                            style: TextStyle(fontSize: 30)),
+                                  ),
+                                )
+                              : Text(widget.icon,
+                                  style: TextStyle(fontSize: 30)),
+                        ),
                         title: Text(
                           posts[i]['caption'],
                           maxLines: 2,
@@ -125,42 +155,34 @@ class _CategoryScreenState
                         ),
                         subtitle: Text(
                           posts[i]['hashtags'],
-                          style: TextStyle(
-                              color: Color(0xFF7F77DD)),
+                          style: TextStyle(color: Color(0xFF7F77DD)),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
                         trailing: IconButton(
-                          icon: Icon(Icons.edit,
-                              color: Colors.grey),
+                          icon: Icon(Icons.edit, color: Colors.grey),
                           onPressed: () {
                             showDialog(
                               context: ctx,
                               builder: (_) => AlertDialog(
-                                title:
-                                    Text('카테고리 수정'),
-                                content: Text(
-                                    '다른 카테고리로 이동할까요?'),
+                                title: Text('카테고리 수정'),
+                                content: Text('다른 카테고리로 이동할까요?'),
                                 actions: [
                                   TextButton(
                                     child: Text('취소'),
-                                    onPressed: () =>
-                                        Navigator.pop(
-                                            ctx),
+                                    onPressed: () => Navigator.pop(ctx),
                                   ),
                                   TextButton(
                                     child: Text('확인'),
-                                    onPressed: () =>
-                                        Navigator.pop(
-                                            ctx),
+                                    onPressed: () => Navigator.pop(ctx),
                                   ),
                                 ],
                               ),
                             );
                           },
                         ),
-                      ),
-                    );
+                      ),                   
+                     );
                   },
                 ),
     );
