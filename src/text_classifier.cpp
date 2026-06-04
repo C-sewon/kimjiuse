@@ -181,7 +181,7 @@ ClassifyResult classify_text(const char* caption,
         result.confidence = 0.5f;
     }
 
-    char msg[100];
+    char msg[200];  // ← 100에서 200으로 변경
     sprintf(msg, "분류 결과: %s (%.0f%%)",
             result.category,
             result.confidence * 100);
@@ -191,6 +191,9 @@ ClassifyResult classify_text(const char* caption,
 
 void update_feedback(const char* keyword,
                      const char* correct_category) {
+    if (!keyword) keyword = "";                    // ← 추가
+    if (!correct_category) correct_category = ""; // ← 추가
+
     char msg[200];
     sprintf(msg, "피드백 반영: %s → %s",
             keyword, correct_category);
