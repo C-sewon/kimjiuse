@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:url_launcher/url_launcher.dart'; ← 맨 위에 추가
+import 'package:url_launcher/url_launcher.dart'; 
 
 class CategoryScreen extends StatefulWidget {
   final String category;
