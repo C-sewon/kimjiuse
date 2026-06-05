@@ -110,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFAFAFC),
       appBar: AppBar(
         title: Text(
           '내 북마크',
@@ -192,8 +192,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     end: Alignment.bottomCenter,
                                     colors: [
                                       Colors.transparent,
-                                      Colors.black.withOpacity(0.1),
-                                      Colors.black.withOpacity(0.65),
+                                      Colors.black.withValues(alpha:0.1),
+                                      Colors.black.withValues(alpha:0.65),
                                     ],
                                   ),
                                 ),
@@ -218,16 +218,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     );
                   },
                 ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() => isLoading = true);
-          loadCategories();
-        },
-        backgroundColor: const Color(0xFFB4D3D9),
-        foregroundColor: Colors.white,
-        elevation: 4,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.refresh, size: 26),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 76),
+        child: FloatingActionButton(
+          onPressed: () {
+            setState(() => isLoading = true);
+            loadCategories();
+          },
+          backgroundColor: const Color(0xFFB4D3D9),
+          foregroundColor: Colors.white,
+          elevation: 4,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.refresh, size: 26),
+        ),
       ),
     );
   }

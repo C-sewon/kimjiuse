@@ -295,8 +295,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             Positioned.fill(
                               child: Container(
                                 color: isSelected
-                                    ? const Color(0xFFB1A2EE).withOpacity(0.4)
-                                    : Colors.black.withOpacity(0.25),
+                                    ? const Color(0xFFB1A2EE).withValues(alpha:0.4)
+                                    : Colors.black.withValues(alpha:0.25),
                               ),
                             ),
                             Positioned(
@@ -354,7 +354,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         color: hasSelection ? Colors.red : Colors.transparent,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: hasSelection
-                            ? [BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 4, offset: const Offset(0, 2))]
+                            ? [BoxShadow(color: Colors.black.withValues(alpha:0.2), blurRadius: 4, offset: const Offset(0, 2))]
                             : [],
                       ),
                       child: InkWell(
@@ -365,7 +365,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           children: [
                             Icon(
                               Icons.delete,
-                              color: hasSelection ? Colors.white : Colors.white.withOpacity(0.5),
+                              color: hasSelection ? Colors.white : Colors.white.withValues(alpha:0.5),
                               size: 18,
                             ),
                             const SizedBox(width: 4),
@@ -373,7 +373,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               '삭제',
                               style: GoogleFonts.notoSansKr(
                                 fontWeight: FontWeight.bold,
-                                color: hasSelection ? Colors.white : Colors.white.withOpacity(0.5),
+                                color: hasSelection ? Colors.white : Colors.white.withValues(alpha:0.5),
                                 fontSize: 14,
                               ),
                             ),
@@ -388,7 +388,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     Container(
                       decoration: BoxDecoration(
                         boxShadow: hasSelection
-                            ? [BoxShadow(color: Colors.black.withOpacity(0.12), blurRadius: 4, offset: const Offset(0, 2))]
+                            ? [BoxShadow(color: Colors.black.withValues(alpha:0.12), blurRadius: 4, offset: const Offset(0, 2))]
                             : [],
                       ),
                       child: TextButton.icon(
@@ -396,21 +396,21 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           Icons.drive_file_move, 
                           size: 16,
                           // 🌟 활성화 시 눈에 아주 선명하게 잘 띄는 진보라(#806EE3) 아이콘 장착
-                          color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withOpacity(0.4),
+                          color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withValues(alpha:0.4),
                         ),
                         label: Text(
                           '이동', 
                           style: GoogleFonts.notoSansKr(
                             fontWeight: FontWeight.bold,
                             // 🌟 활성화 시 이동 글씨도 진보라(#806EE3)로 칼같이 선명하게 업그레이드!
-                            color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withOpacity(0.4),
+                            color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withValues(alpha:0.4),
                           )
                         ),
                         style: TextButton.styleFrom(
                           // 🌟 애니메이션 스타일인 ElevatedButton 대신 TextButton 구조로 전환하여 즉시 반응!
                           backgroundColor: hasSelection
                               ? const Color(0xFFF7F4EB)
-                              : Colors.white.withOpacity(0.15),
+                              : Colors.white.withValues(alpha:0.15),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                         ),

@@ -141,7 +141,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.04),
+                    color: Colors.black.withValues(alpha:0.04),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -199,8 +199,8 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   decoration: BoxDecoration(
                     color: statusMessage.contains('실패') 
-                        ? Colors.red.withOpacity(0.1) 
-                        : const Color(0xFFB1A2EE).withOpacity(0.1),
+                        ? Colors.red.withValues(alpha:0.1) 
+                        : const Color(0xFFB1A2EE).withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
@@ -257,7 +257,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.03),
+                                color: Colors.black.withValues(alpha:0.03),
                                 blurRadius: 14,
                                 offset: const Offset(0, 6),
                               ),
@@ -296,7 +296,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                                         top: 14,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.black.withOpacity(0.6),
+                                            color: Colors.black.withValues(alpha:0.6),
                                             borderRadius: BorderRadius.circular(30),
                                           ),
                                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
