@@ -89,3 +89,13 @@ Flutter: 3.x
 Python: 3.11+
 DB: SQLite3 (vcpkg)
 
+---
+
+## 📋 Git 브랜치 전략
+main     ← 최종 완성본
+develop  ← 통합 테스트
+feature/ ← 각 팀원 작업 브랜치
+├── feature/main-db : 팀장 최세원
+├── feature/data-pipeline  : 팀원 황지유
+├── feature/text-classifier  : 팀원 김민진
+└── feature/image-analyzer  : 팀원 홍유진
