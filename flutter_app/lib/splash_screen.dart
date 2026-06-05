@@ -3,8 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'main_screen.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen>
@@ -17,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
 
@@ -31,11 +33,11 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => MainScreen()),
+          MaterialPageRoute(builder: (_) => const MainScreen()),
         );
       }
     });
@@ -50,36 +52,38 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFAFAFC),
       body: Padding(
-        padding: EdgeInsets.all(32),
+        padding: const EdgeInsets.all(32),
         child: AnimatedBuilder(
           animation: _controller,
           builder: (context, child) {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 80),
+                const SizedBox(height: 80),
                 Opacity(
                   opacity: _fadeAnimation.value,
                   child: Text(
                     '저장한 순간을\n정리하다',
-                    style: GoogleFonts.blackHanSans(
-                      fontSize: 25,
-                      color: Colors.black,
-                      height: 1.5,
+                    style: GoogleFonts.notoSansKr(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                      height: 1.4,
                     ),
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Opacity(
                   opacity: _fadeAnimation.value,
                   child: Text(
                     '북마크 분류기',
-                    style: GoogleFonts.blackHanSans(
-                      fontSize: 32,
-                    
-                      color: Color(0xFF7F77DD),
+                    style: GoogleFonts.notoSansKr(
+                      fontSize: 34,
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xFFB1A2EE),
+                      letterSpacing: -0.5,
                     ),
                   ),
                 ),
@@ -89,9 +93,9 @@ class _SplashScreenState extends State<SplashScreen>
                       scale: _scaleAnimation.value,
                       child: Opacity(
                         opacity: _fadeAnimation.value,
-                        child: Text(
+                        child: const Text(
                           '📌',
-                          style: TextStyle(fontSize: 150),
+                          style: TextStyle(fontSize: 140),
                         ),
                       ),
                     ),
