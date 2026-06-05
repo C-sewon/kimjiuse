@@ -48,6 +48,25 @@ python -m pip install fastapi uvicorn requests python-dotenv
 
 ### 2. '발표'폴더로 이동
 server.exe 파일과 flutter.exe 파일 순서대로 실행
+
 ---
 
-## 📁 프로젝트 구조
+## 🔄 시스템 흐름
+1. URL 입력 (Flutter UI)
+↓
+2. Python FastAPI 서버
+→ RapidAPI로 Instagram 데이터 수집
+→ 캡션 / 해시태그 / 이미지 추출
+↓
+3. C++ 분류 엔진 (FFI)
+→ 텍스트 키워드 분석
+→ 카테고리 자동 분류
+→ 신뢰도 점수 계산
+↓
+4. SQLite DB 저장
+→ 분류 결과 영구 저장
+↓
+5. Flutter UI 표시
+→ 카테고리별 게시물 목록
+→ 실제 인스타그램 이미지 표시
+→ 홈화면 카운팅 업데이트
