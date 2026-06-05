@@ -5,8 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'category_screen.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -101,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return Image.network(
           images[index],
           fit: BoxFit.cover,
-          errorBuilder: (_, __, ___) => Container(color: const Color(0xFFEFEFEF)),
+          errorBuilder: (context, error, stackTrace) => Container(color: const Color(0xFFEFEFEF)),
         );
       },
     );
@@ -192,8 +194,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     end: Alignment.bottomCenter,
                                     colors: [
                                       Colors.transparent,
-                                      Colors.black.withValues(alpha:0.1),
-                                      Colors.black.withValues(alpha:0.65),
+                                      Colors.black.withValues(alpha: 0.1),
+                                      Colors.black.withValues(alpha: 0.65),
                                     ],
                                   ),
                                 ),

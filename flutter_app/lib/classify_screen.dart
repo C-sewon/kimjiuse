@@ -5,8 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'classifier_bridge.dart';
 
 class ClassifyScreen extends StatefulWidget {
+  const ClassifyScreen({super.key});
+
   @override
-  _ClassifyScreenState createState() => _ClassifyScreenState();
+  State<ClassifyScreen> createState() => _ClassifyScreenState();
 }
 
 class _ClassifyScreenState extends State<ClassifyScreen> {
@@ -30,6 +32,36 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
     });
 
     try {
+      // 🌟 [원천 차단 1단계] 입력된 URL에서 인스타그램 고유 post_id(또는 shortcode) 추출 시도
+      // 예: instagram.com/p/C4bcDE/ -> C4bcDE 추출
+      final RegExp regExp = RegExp(
+        r'(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:p|reels|reel)\/([^\/?#&]+)',
+        caseSensitive: false,
+      );
+      final Match? match = regExp.firstMatch(urlController.text);
+      
+      if (match != null && match.groupCount >= 1) {
+        final String inputPostId = match.group(1)!;
+
+        // 🌟 [원천 차단 2단계] 서버에서 전체 북마크 목록을 가져와 기저장 여부 검사
+        final checkResponse = await http.get(Uri.parse('http://127.0.0.1:8000/bookmarks'));
+        if (checkResponse.statusCode == 200) {
+          final checkData = jsonDecode(checkResponse.body);
+          final existingBookmarks = checkData['bookmarks'] as List;
+          
+          bool isAlreadySaved = existingBookmarks.any((b) => b['post_id'] == inputPostId);
+          
+          if (isAlreadySaved) {
+            setState(() {
+              statusMessage = '실패: 이미 분류가 완료된 북마크입니다.';
+              isLoading = false;
+              urlController.clear();
+            });
+            return;
+          }
+        }
+      }
+
       // 1. Python 서버에 URL 전송
       final response = await http.post(
         Uri.parse('http://127.0.0.1:8000/collect'),
@@ -43,7 +75,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
         if (data['success'] == true) {
           final String newPostId = data['post_id'] ?? '';
 
-          // 🌟 [중복 체크] 현재 화면에 띄워진 임시 피드(results)에 이미 같은 post_id가 있는지 확인
+          // 🌟 혹시 몰라 한 번 더 화면단 중복 더블 체크
           bool isDuplicate = results.any((item) => item['post_id'] == newPostId);
 
           if (isDuplicate) {
@@ -87,8 +119,6 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
           );
 
           // 5. 화면 업데이트
-          // 🌟 [버그 수정 완료] 중복 추가의 원인이던 'results.insert(0, ...)' 수동 갱신 로직을 걷어내고,
-          // 백엔드 저장이 끝난 후 오직 이 싱글 맵 데이터를 단 한 번만 깨끗하게 세팅하여 화면에 그립니다.
           setState(() {
             results.insert(0, {
               'post_id': data['post_id'],
@@ -141,7 +171,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha:0.04),
+                    color: Colors.black.withValues(alpha: 0.04),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -199,8 +229,8 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                   decoration: BoxDecoration(
                     color: statusMessage.contains('실패') 
-                        ? Colors.red.withValues(alpha:0.1) 
-                        : const Color(0xFFB1A2EE).withValues(alpha:0.1),
+                        ? Colors.red.withValues(alpha: 0.1) 
+                        : const Color(0xFFB1A2EE).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Text(
@@ -257,7 +287,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withValues(alpha:0.03),
+                                color: Colors.black.withValues(alpha: 0.03),
                                 blurRadius: 14,
                                 offset: const Offset(0, 6),
                               ),
@@ -282,7 +312,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                                                 child: Image.network(
                                                   results[i]['image_url'],
                                                   fit: BoxFit.cover,
-                                                  errorBuilder: (_, __, ___) => Center(
+                                                  errorBuilder: (context, error, stackTrace) => Center(
                                                     child: Text(currentIcon, style: const TextStyle(fontSize: 48)),
                                                   ),
                                                 ),
@@ -296,7 +326,7 @@ class _ClassifyScreenState extends State<ClassifyScreen> {
                                         top: 14,
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.black.withValues(alpha:0.6),
+                                            color: Colors.black.withValues(alpha: 0.6),
                                             borderRadius: BorderRadius.circular(30),
                                           ),
                                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

@@ -67,8 +67,8 @@ Map<String, dynamic> classifyBookmark(
 
   logger.i('분류 완료: $category');
   return {
-    'category': parts[0],
-    'confidence': double.parse(parts[1]),
+    'category': category,
+    'confidence': confidence,
   };
 }
 

@@ -7,10 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 class CategoryScreen extends StatefulWidget {
   final String category;
   final String icon;
-  CategoryScreen(this.category, this.icon);
+
+  const CategoryScreen(this.category, this.icon, {super.key});
 
   @override
-  _CategoryScreenState createState() => _CategoryScreenState();
+  State<CategoryScreen> createState() => _CategoryScreenState();
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
@@ -75,11 +76,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
         await http.delete(Uri.parse('http://127.0.0.1:8000/bookmarks/$postId'));
       }
 
-      print("선택한 모든 게시물 순차 삭제 완료");
       isAnyDeleted = true;
       loadPosts();
     } catch (e) {
-      print("일괄 삭제 중 에러: $e");
       if (mounted) {
         setState(() => isLoading = false);
       }
@@ -109,13 +108,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
         );
       }
 
-      print("선택한 모든 게시물 데이터 누락 없이 카테고리 이동 성공");
-
       if (mounted) {
-        Navigator.of(this.context).pop(true);
+        Navigator.of(context).pop(true);
       }
     } catch (e) {
-      print("일괄 이동 중 에러 발생: $e");
       if (mounted) {
         setState(() => isLoading = false);
       }
@@ -161,7 +157,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           '${selectedPostIds.length}개의 게시물 이동',
           style: GoogleFonts.notoSansKr(fontWeight: FontWeight.bold)
         ),
-        content: Container(
+        content: SizedBox(
           width: double.maxFinite,
           height: 250,
           child: ListView.builder(
@@ -295,8 +291,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             Positioned.fill(
                               child: Container(
                                 color: isSelected
-                                    ? const Color(0xFFB1A2EE).withValues(alpha:0.4)
-                                    : Colors.black.withValues(alpha:0.25),
+                                    ? const Color(0xFFB1A2EE).withValues(alpha: 0.4)
+                                    : Colors.black.withValues(alpha: 0.25),
                               ),
                             ),
                             Positioned(
@@ -346,15 +342,13 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       style: GoogleFonts.notoSansKr(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                     const SizedBox(width: 16),
-
-                    // 🗑️ 삭제 버튼 (즉시 활성화)
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       decoration: BoxDecoration(
                         color: hasSelection ? Colors.red : Colors.transparent,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: hasSelection
-                            ? [BoxShadow(color: Colors.black.withValues(alpha:0.2), blurRadius: 4, offset: const Offset(0, 2))]
+                            ? [BoxShadow(color: Colors.black.withValues(alpha: 0.2), blurRadius: 4, offset: const Offset(0, 2))]
                             : [],
                       ),
                       child: InkWell(
@@ -365,7 +359,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           children: [
                             Icon(
                               Icons.delete,
-                              color: hasSelection ? Colors.white : Colors.white.withValues(alpha:0.5),
+                              color: hasSelection ? Colors.white : Colors.white.withValues(alpha: 0.5),
                               size: 18,
                             ),
                             const SizedBox(width: 4),
@@ -373,7 +367,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               '삭제',
                               style: GoogleFonts.notoSansKr(
                                 fontWeight: FontWeight.bold,
-                                color: hasSelection ? Colors.white : Colors.white.withValues(alpha:0.5),
+                                color: hasSelection ? Colors.white : Colors.white.withValues(alpha: 0.5),
                                 fontSize: 14,
                               ),
                             ),
@@ -381,36 +375,30 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         ),
                       ),
                     ),
-
                     const Spacer(),
-
-                    // 📂 [이동 버튼 대수술]: 애니메이션 제거(0초 적용) + 글씨 및 아이콘 보라색 강화 완료!
                     Container(
                       decoration: BoxDecoration(
                         boxShadow: hasSelection
-                            ? [BoxShadow(color: Colors.black.withValues(alpha:0.12), blurRadius: 4, offset: const Offset(0, 2))]
+                            ? [BoxShadow(color: Colors.black.withValues(alpha: 0.12), blurRadius: 4, offset: const Offset(0, 2))]
                             : [],
                       ),
                       child: TextButton.icon(
                         icon: Icon(
                           Icons.drive_file_move, 
                           size: 16,
-                          // 🌟 활성화 시 눈에 아주 선명하게 잘 띄는 진보라(#806EE3) 아이콘 장착
-                          color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withValues(alpha:0.4),
+                          color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withValues(alpha: 0.4),
                         ),
                         label: Text(
                           '이동', 
                           style: GoogleFonts.notoSansKr(
                             fontWeight: FontWeight.bold,
-                            // 🌟 활성화 시 이동 글씨도 진보라(#806EE3)로 칼같이 선명하게 업그레이드!
-                            color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withValues(alpha:0.4),
+                            color: hasSelection ? const Color(0xFF806EE3) : Colors.white.withValues(alpha: 0.4),
                           )
                         ),
                         style: TextButton.styleFrom(
-                          // 🌟 애니메이션 스타일인 ElevatedButton 대신 TextButton 구조로 전환하여 즉시 반응!
                           backgroundColor: hasSelection
                               ? const Color(0xFFF7F4EB)
-                              : Colors.white.withValues(alpha:0.15),
+                              : Colors.white.withValues(alpha: 0.15),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                         ),
