@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:google_fonts/google_fonts.dart';
 import 'classifier_bridge.dart';
 
 class ClassifyScreen extends StatefulWidget {
   @override
-  _ClassifyScreenState createState() =>
-      _ClassifyScreenState();
+  _ClassifyScreenState createState() => _ClassifyScreenState();
 }
 
-class _ClassifyScreenState
-    extends State<ClassifyScreen> {
-
+class _ClassifyScreenState extends State<ClassifyScreen> {
   final urlController = TextEditingController();
   List<Map<String, dynamic>> results = [];
   bool isLoading = false;
@@ -43,6 +41,20 @@ class _ClassifyScreenState
         final data = jsonDecode(response.body);
 
         if (data['success'] == true) {
+          final String newPostId = data['post_id'] ?? '';
+
+          // 🌟 [중복 체크] 현재 화면에 띄워진 임시 피드(results)에 이미 같은 post_id가 있는지 확인
+          bool isDuplicate = results.any((item) => item['post_id'] == newPostId);
+
+          if (isDuplicate) {
+            setState(() {
+              statusMessage = '실패: 이미 분류가 완료된 북마크입니다.';
+              isLoading = false;
+              urlController.clear();
+            });
+            return;
+          }
+
           setState(() {
             statusMessage = 'C++ 분류 중...';
           });
@@ -63,19 +75,20 @@ class _ClassifyScreenState
           // 4. Python 서버 JSON에도 저장
           await http.post(
             Uri.parse('http://127.0.0.1:8000/save'),
-            headers: {
-              'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json'},
             body: jsonEncode({
               'post_id': data['post_id'],
               'caption': data['caption'],
               'hashtags': data['hashtags'],
               'category': result['category'],
               'confidence': result['confidence'],
-              'image_url': data['image_url'] ?? '', 
+              'image_url': data['image_url'] ?? '',
             }),
           );
 
           // 5. 화면 업데이트
+          // 🌟 [버그 수정 완료] 중복 추가의 원인이던 'results.insert(0, ...)' 수동 갱신 로직을 걷어내고,
+          // 백엔드 저장이 끝난 후 오직 이 싱글 맵 데이터를 단 한 번만 깨끗하게 세팅하여 화면에 그립니다.
           setState(() {
             results.insert(0, {
               'post_id': data['post_id'],
@@ -107,177 +120,261 @@ class _ClassifyScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFAFAFC),
       appBar: AppBar(
-        title: Text('북마크 분류'),
-        backgroundColor: Color(0xFF7F77DD),
+        title: Text(
+          '북마크 분류',
+          style: GoogleFonts.notoSansKr(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFFB1A2EE),
         foregroundColor: Colors.white,
+        elevation: 0,
       ),
       body: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // URL 입력창
-            TextField(
-              controller: urlController,
-              decoration: InputDecoration(
-                hintText: '인스타그램 URL 입력',
-                hintStyle: TextStyle(color: Colors.grey),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-            ),
-            SizedBox(height: 12),
-
-            // 분류 버튼
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: isLoading
-                    ? null
-                    : collectAndClassify,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF7F77DD),
-                  foregroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(
-                      vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(12),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.04),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
                   ),
-                ),
-                child: isLoading
-                    ? Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
+                ],
+              ),
+              padding: const EdgeInsets.all(6),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: urlController,
+                      style: GoogleFonts.notoSansKr(fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: '인스타그램 URL 입력',
+                        hintStyle: GoogleFonts.notoSansKr(color: Colors.grey, fontSize: 14),
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: isLoading ? null : collectAndClassify,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isLoading ? const Color(0xFFE0E0E0) : const Color(0xFFB1A2EE),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      child: isLoading
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Text(
+                              '분류',
+                              style: GoogleFonts.notoSansKr(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 8),
-                          Text(statusMessage),
-                        ],
-                      )
-                    : Text('분류하기'),
+                    ),
+                  ),
+                ],
               ),
             ),
-
-            // 상태 메시지
-            if (statusMessage.isNotEmpty && !isLoading)
+            if (statusMessage.isNotEmpty)
               Padding(
-                padding: EdgeInsets.only(top: 8),
-                child: Text(
-                  statusMessage,
-                  style: TextStyle(
-                    color: statusMessage.contains('실패')
-                        ? Colors.red
-                        : Colors.green,
+                padding: const EdgeInsets.only(top: 12),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: statusMessage.contains('실패') 
+                        ? Colors.red.withOpacity(0.1) 
+                        : const Color(0xFFB1A2EE).withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Text(
+                    statusMessage,
+                    style: GoogleFonts.notoSansKr(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: statusMessage.contains('실패') ? Colors.red : const Color(0xFF7F67E2),
+                    ),
                   ),
                 ),
               ),
-
-            SizedBox(height: 16),
-
-            // 결과 목록
+            const SizedBox(height: 20),
             Expanded(
               child: results.isEmpty
                   ? Center(
                       child: Column(
-                        mainAxisAlignment:
-                            MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('📌',
-                              style: TextStyle(
-                                  fontSize: 50)),
-                          SizedBox(height: 16),
+                          const Text('📂', style: TextStyle(fontSize: 56)),
+                          const SizedBox(height: 16),
                           Text(
-                            '인스타그램 URL을 입력하면\nAI가 자동으로 분류해드립니다',
+                            '분류할 인스타그램 게시물 또는 릴스 링크를 넣어보세요',
+                            style: GoogleFonts.notoSansKr(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF333333),
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            'AI 엔진이 수집 정보와 해시태그를 대조하여\n스마트하게 매칭 카테고리를 찾아냅니다.',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colors.grey),
+                            style: GoogleFonts.notoSansKr(
+                              color: Colors.grey,
+                              fontSize: 13,
+                              height: 1.5,
+                            ),
                           ),
                         ],
                       ),
                     )
                   : ListView.builder(
                       itemCount: results.length,
+                      physics: const BouncingScrollPhysics(),
                       itemBuilder: (ctx, i) {
-                        return Card(
-                          margin: EdgeInsets.only(
-                              bottom: 8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(12),
-                          ),
-                          child: ListTile(
-                            contentPadding:
-                                EdgeInsets.all(12),
-                            leading: Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius
-                                        .circular(8),
+                        final String categoryName = results[i]['category'];
+                        final String currentIcon = _getCategoryIcon(categoryName);
+
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.03),
+                                blurRadius: 14,
+                                offset: const Offset(0, 6),
                               ),
-                              child: results[i]
-                                              ['image_url'] !=
-                                          null &&
-                                      results[i]
-                                              ['image_url'] !=
-                                          ''
-                                  ? ClipRRect(
-                                      borderRadius:
-                                          BorderRadius
-                                              .circular(8),
-                                      child: Image.network(
-                                        results[i]
-                                            ['image_url'],
-                                        fit: BoxFit.cover,
-                                        errorBuilder: (ctx,
-                                                err,
-                                                stack) =>
-                                            Text(
-                                          _getCategoryIcon(
-                                              results[i][
-                                                  'category']),
-                                          style: TextStyle(
-                                              fontSize: 30),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 1.6,
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Color(0xFFF7F7FA),
+                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: results[i]['image_url'] != null && results[i]['image_url'] != ''
+                                            ? ClipRRect(
+                                                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                                                child: Image.network(
+                                                  results[i]['image_url'],
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (_, __, ___) => Center(
+                                                    child: Text(currentIcon, style: const TextStyle(fontSize: 48)),
+                                                  ),
+                                                ),
+                                              )
+                                            : Center(
+                                                child: Text(currentIcon, style: const TextStyle(fontSize: 48)),
+                                              ),
+                                      ),
+                                      Positioned(
+                                        left: 14,
+                                        top: 14,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.black.withOpacity(0.6),
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Text('$currentIcon ', style: const TextStyle(fontSize: 13)),
+                                              Text(
+                                                categoryName,
+                                                style: GoogleFonts.notoSansKr(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    )
-                                  : Text(
-                                      _getCategoryIcon(
-                                          results[i]
-                                              ['category']),
-                                      style: TextStyle(
-                                          fontSize: 30),
-                                    ),
-                            ),
-                            title: Text(
-                              results[i]['category'],
-                              style: TextStyle(
-                                  fontWeight:
-                                      FontWeight.bold),
-                            ),
-                            subtitle: Text(
-                              results[i]['caption'],
-                              maxLines: 1,
-                              overflow:
-                                  TextOverflow.ellipsis,
-                            ),
-                            trailing: Text(
-                              '${(results[i]['confidence'] * 100).toStringAsFixed(0)}%',
-                              style: TextStyle(
-                                color: Color(0xFF7F77DD),
-                                fontWeight: FontWeight.bold,
+                                      Positioned(
+                                        right: 14,
+                                        top: 14,
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFFB1A2EE),
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                          child: Text(
+                                            '${(results[i]['confidence'] * 100).toStringAsFixed(0)}% Match',
+                                            style: GoogleFonts.notoSansKr(
+                                              color: Colors.white,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
+                              Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      results[i]['caption'].toString().trim().isEmpty
+                                          ? '본문 내용이 없는 북마크입니다.'
+                                          : results[i]['caption'],
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: GoogleFonts.notoSansKr(
+                                        fontSize: 14,
+                                        color: const Color(0xFF333333),
+                                        fontWeight: FontWeight.w500,
+                                        height: 1.4,
+                                      ),
+                                    ),
+                                    if (results[i]['hashtags'] != null && results[i]['hashtags'].toString().isNotEmpty)
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(
+                                          results[i]['hashtags'],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: GoogleFonts.notoSansKr(
+                                            fontSize: 12,
+                                            color: const Color(0xFF7F67E2),
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       },
