@@ -61,10 +61,10 @@ data/app.log
 data/bookmarks.db
 
 # 빌드 결과물
-/build/
-*.exe
-*.dll
 *.a
+# exe, dll은 특정 파일만 제외
+build/*.exe
+build/*.dll
 
 # Python
 __pycache__/
