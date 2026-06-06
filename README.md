@@ -47,7 +47,7 @@ python -m pip install fastapi uvicorn requests python-dotenv
 ```
 
 ### 2. exe 파일 실행
-collector/windows/dist 안에 있는 server.exe 파일과
+collector/dist 안에 있는 server.exe 파일과
 flutter_app/build/windows/x64/runner/Release 안에 있는 flutter.exe 파일을 순서대로 실행
 
 ---
